@@ -140,7 +140,12 @@
     },
     load: function(url, next, nextContext) {
       var request = new XMLHttpRequest();
-      if (scope.flags.debug || scope.flags.bust) {
+
+      //android2.3  ajax cache bug
+      var ua = window.navigator.userAgent.match(/Android[\s\/]([\d\.]+)/);
+      if(ua&&(parseFloat(ua[1])<3)){
+        url += '?' + Math.random();
+      } else if (scope.flags.debug || scope.flags.bust) {
         url += '?' + Math.random();
       }
       request.open('GET', url, xhr.async);
